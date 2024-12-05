@@ -80,6 +80,27 @@
       font-weight: bold;
       margin-top: 10px;
     }
+
+    #stats {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -100,6 +121,12 @@
     <input type="number" id="timer-input" placeholder="Minutos" min="1">
     <button id="start-timer">Iniciar Temporizador</button>
     <p id="timer-display">Tiempo restante: --:--</p>
+
+    <h3>Estadísticas</h3>
+    <button id="monthly-stats">Ver Datos Mensuales</button>
+    <button id="yearly-stats">Ver Datos Anuales</button>
+
+    <div id="stats"></div>
   </div>
 
   <script src="script.js"></script>

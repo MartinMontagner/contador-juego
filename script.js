@@ -1,30 +1,77 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const enableAudioButton = document.getElementById("enable-audio");
-    const playerNameInput = document.getElementById("player-name");
-    const addPlayerButton = document.getElementById("add-player");
-    const playerList = document.getElementById("player-list");
-    const timerInput = document.getElementById("timer-input");
-    const startTimerButton = document.getElementById("start-timer");
-    const timerDisplay = document.getElementById("timer-display");
-  
-    const players = [];
-    const maxPlayers = 10;
-    const maxWins = 7;
-    let timerInterval;
-    let audioEnabled = false;
-    const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-  
-    // Desbloquear audio con interacción inicial
-    enableAudioButton.addEventListener("click", () => {
-      audio.play().then(() => {
-        alert("Sonido habilitado. Ahora puedes usar el temporizador.");
-        audioEnabled = true;
-        enableAudioButton.style.display = "none"; // Ocultar botón después de habilitar
-      }).catch((error) => {
-        console.error("Error al habilitar el sonido:", error);
-        alert("Por favor, habilita manualmente el sonido en tu navegador.");
-      });
+  const enableAudioButton = document.getElementById("enable-audio");
+  const playerNameInput = document.getElementById("player-name");
+  const addPlayerButton = document.getElementById("add-player");
+  const playerList = document.getElementById("player-list");
+  const timerInput = document.getElementById("timer-input");
+  const startTimerButton = document.getElementById("start-timer");
+  const timerDisplay = document.getElementById("timer-display");
+  const monthlyStatsButton = document.getElementById("monthly-stats");
+  const yearlyStatsButton = document.getElementById("yearly-stats");
+  const statsDiv = document.getElementById("stats");
+
+  const players = [];
+  const maxPlayers = 10;
+  const maxWins = 7;
+  let timerInterval;
+  let audioEnabled = false;
+  const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+      // Desbloquear audio con interacción inicial
+  enableAudioButton.addEventListener("click", () => {
+    audio.play().then(() => {
+      alert("Sonido habilitado. Ahora puedes usar el temporizador.");
+      audioEnabled = true;
+      enableAudioButton.style.display = "none";
+    }).catch((error) => {
+      console.error("Error al habilitar el sonido:", error);
+      alert("Por favor, habilita manualmente el sonido en tu navegador.");
     });
+  });
+
+  // Función para cargar estadísticas
+  const loadStats = async (type) => {
+    const year = prompt("Ingrese el año:");
+    let url = `/stats/year/${year}`;
+    if (type === "monthly") {
+      const month = prompt("Ingrese el mes (número):");
+      url = `/stats/month/${month}/year/${year}`;
+    }
+
+    const response = await fetch(url);
+    const data = await response.json();
+    displayStats(data, type === "monthly" ? "Estadísticas Mensuales" : "Estadísticas Anuales");
+  };
+
+  const displayStats = (data, title) => {
+    statsDiv.innerHTML = `<h2>${title}</h2>`;
+    if (data.length === 0) {
+      statsDiv.innerHTML += "<p>No hay datos disponibles.</p>";
+      return;
+    }
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <tr>
+        <th>Nombre</th>
+        <th>Partidas Jugadas</th>
+        <th>Derrotas</th>
+        <th>% Derrotas</th>
+      </tr>
+    `;
+    data.forEach((row) => {
+      table.innerHTML += `
+        <tr>
+          <td>${row.name}</td>
+          <td>${row.games_played || row.total_games}</td>
+          <td>${row.losses || row.total_losses}</td>
+          <td>${(row.loss_percentage || 0).toFixed(2)}%</td>
+        </tr>
+      `;
+    });
+    statsDiv.appendChild(table);
+  };
+
+  monthlyStatsButton.addEventListener("click", () => loadStats("monthly"));
+  yearlyStatsButton.addEventListener("click", () => loadStats("yearly"));
   
     // Renderizar jugadores
     const renderPlayers = () => {
