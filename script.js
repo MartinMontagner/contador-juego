@@ -72,13 +72,17 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
   
+      // Interacción inicial para desbloquear audio
+      const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+      audio.play().catch(() => {}); // Prevenir errores si no hay audio
+  
       clearInterval(timerInterval);
       let remainingTime = minutes * 60;
   
       timerInterval = setInterval(() => {
-        const minutes = Math.floor(remainingTime / 60);
-        const seconds = remainingTime % 60;
-        timerDisplay.textContent = `Tiempo restante: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        const mins = Math.floor(remainingTime / 60);
+        const secs = remainingTime % 60;
+        timerDisplay.textContent = `Tiempo restante: ${mins}:${secs < 10 ? "0" : ""}${secs}`;
         remainingTime--;
   
         if (remainingTime < 0) {
@@ -93,7 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Play alarm
     const playAlarm = () => {
       const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-      audio.play();
+      audio.play().catch((error) => {
+        console.error("No se pudo reproducir el sonido de la alarma:", error);
+        alert("¡El temporizador terminó! Habilita el sonido para escuchar la alarma.");
+      });
     };
   
     // Show the player(s) with the least wins
