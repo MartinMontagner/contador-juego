@@ -1,106 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contador de Juegos</title>
+  <title>Juego de Jugadores</title>
   <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f3f4f6;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 90%;
-    }
-
-    h1 {
-      font-size: 24px;
-      color: #007BFF;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"], input[type="number"] {
-      width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-
-    button {
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-      margin-right: 5px;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    button:disabled {
-      background-color: #ddd;
-      cursor: not-allowed;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .player-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      background: #f9f9f9;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    #timer-display {
-      font-weight: bold;
-      margin-top: 10px;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { margin: 5px; padding: 10px; font-size: 16px; cursor: pointer; }
+    #player-list { list-style-type: none; padding: 0; }
+    .player-item { margin: 10px 0; }
+    #timer-display { font-size: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Contador de Juegos</h1>
 
-    <!-- Botón para habilitar sonido -->
-    <button id="enable-audio">Habilitar sonido</button>
-
-    <h3>Agregar jugador</h3>
-    <input type="text" id="player-name" placeholder="Nombre del jugador">
+  <h1>Juego de Jugadores</h1>
+  <div>
+    <label for="player-name">Nombre del jugador:</label>
+    <input type="text" id="player-name">
     <button id="add-player">Agregar Jugador</button>
-
-    <h3>Lista de jugadores</h3>
-    <ul id="player-list"></ul>
-
-    <h3>Temporizador</h3>
-    <input type="number" id="timer-input" placeholder="Minutos" min="1">
-    <button id="start-timer">Iniciar Temporizador</button>
-    <p id="timer-display">Tiempo restante: --:--</p>
   </div>
+  
+  <ul id="player-list"></ul>
+
+  <h2>Temporizador</h2>
+  <label for="timer-input">Tiempo (minutos):</label>
+  <input type="number" id="timer-input" min="1">
+  <button id="start-timer">Iniciar Temporizador</button>
+  <div id="timer-display">Tiempo restante: 00:00</div>
+
+  <h3>Habilitar Sonido</h3>
+  <button id="enable-sound">Habilitar Sonido</button>
 
   <script src="script.js"></script>
 </body>

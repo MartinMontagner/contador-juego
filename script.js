@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerInput = document.getElementById("timer-input");
     const startTimerButton = document.getElementById("start-timer");
     const timerDisplay = document.getElementById("timer-display");
+    const enableSoundButton = document.getElementById("enable-sound");
   
     const players = [];
     const maxPlayers = 10;
@@ -13,17 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let audioEnabled = false;
     const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
   
-    // Habilitar sonido en la primera interacción
-    document.body.addEventListener("click", () => {
-      if (!audioEnabled) {
-        audio.play().then(() => {
-          audioEnabled = true;
-          alert("Sonido habilitado. Ahora puedes usar el temporizador.");
-        }).catch((error) => {
-          console.error("Error al habilitar el sonido:", error);
-          alert("No se pudo habilitar el sonido, asegúrate de habilitarlo en tu navegador.");
-        });
-      }
+    // Habilitar sonido con el botón
+    enableSoundButton.addEventListener("click", () => {
+      audio.play().then(() => {
+        audioEnabled = true;
+        alert("Sonido habilitado. Ahora puedes usar el temporizador.");
+      }).catch((error) => {
+        console.error("Error al habilitar el sonido:", error);
+        alert("No se pudo habilitar el sonido, asegúrate de habilitarlo en tu navegador.");
+      });
     });
   
     // Renderizar jugadores
