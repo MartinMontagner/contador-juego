@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const enableAudioButton = document.getElementById("enable-audio");
     const playerNameInput = document.getElementById("player-name");
     const addPlayerButton = document.getElementById("add-player");
     const playerList = document.getElementById("player-list");
     const timerInput = document.getElementById("timer-input");
     const startTimerButton = document.getElementById("start-timer");
     const timerDisplay = document.getElementById("timer-display");
-    const enableSoundButton = document.getElementById("enable-sound");
   
     const players = [];
     const maxPlayers = 10;
@@ -14,14 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let audioEnabled = false;
     const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
   
-    // Habilitar sonido con el botón
-    enableSoundButton.addEventListener("click", () => {
+    // Desbloquear audio con interacción inicial
+    enableAudioButton.addEventListener("click", () => {
       audio.play().then(() => {
-        audioEnabled = true;
         alert("Sonido habilitado. Ahora puedes usar el temporizador.");
+        audioEnabled = true;
+        enableAudioButton.style.display = "none"; // Ocultar botón después de habilitar
       }).catch((error) => {
         console.error("Error al habilitar el sonido:", error);
-        alert("No se pudo habilitar el sonido, asegúrate de habilitarlo en tu navegador.");
+        alert("Por favor, habilita manualmente el sonido en tu navegador.");
       });
     });
   
