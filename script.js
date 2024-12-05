@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const enableAudioButton = document.getElementById("enable-audio");
     const playerNameInput = document.getElementById("player-name");
     const addPlayerButton = document.getElementById("add-player");
     const playerList = document.getElementById("player-list");
@@ -10,8 +11,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const maxPlayers = 10;
     const maxWins = 7;
     let timerInterval;
+    let audioEnabled = false;
+    const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
   
-    // Render players
+    // Desbloquear audio con interacción inicial
+    enableAudioButton.addEventListener("click", () => {
+      audio.play().then(() => {
+        alert("Sonido habilitado. Ahora puedes usar el temporizador.");
+        audioEnabled = true;
+        enableAudioButton.style.display = "none"; // Ocultar botón después de habilitar
+      }).catch((error) => {
+        console.error("Error al habilitar el sonido:", error);
+        alert("Por favor, habilita manualmente el sonido en tu navegador.");
+      });
+    });
+  
+    // Renderizar jugadores
     const renderPlayers = () => {
       playerList.innerHTML = "";
       players.forEach((player, index) => {
@@ -48,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
   
-    // Add a player
+    // Agregar jugador
     addPlayerButton.addEventListener("click", () => {
       const name = playerNameInput.value.trim();
       if (!name) {
@@ -64,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderPlayers();
     });
   
-    // Start the timer
+    // Iniciar temporizador
     startTimerButton.addEventListener("click", () => {
       const minutes = parseInt(timerInput.value);
       if (isNaN(minutes) || minutes <= 0) {
@@ -72,9 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
   
-      // Interacción inicial para desbloquear audio
-      const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-      audio.play().catch(() => {}); // Prevenir errores si no hay audio
+      // Reproducir el sonido de la alarma si está habilitado
+      if (audioEnabled) {
+        audio.play().catch((error) => {
+          console.error("No se pudo reproducir el sonido de la alarma:", error);
+        });
+      }
   
       clearInterval(timerInterval);
       let remainingTime = minutes * 60;
@@ -94,16 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1000);
     });
   
-    // Play alarm
+    // Reproducir alarma
     const playAlarm = () => {
-      const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-      audio.play().catch((error) => {
-        console.error("No se pudo reproducir el sonido de la alarma:", error);
-        alert("¡El temporizador terminó! Habilita el sonido para escuchar la alarma.");
-      });
+      if (audioEnabled) {
+        audio.play().catch((error) => {
+          console.error("No se pudo reproducir el sonido de la alarma:", error);
+        });
+      }
     };
   
-    // Show the player(s) with the least wins
+    // Mostrar el jugador con menos victorias
     const showLoser = () => {
       const minWins = Math.min(...players.map((player) => player.wins));
       const losers = players.filter((player) => player.wins === minWins);
